@@ -1,6 +1,6 @@
 {
   "name": "rm-node-modules-cli",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Find and remove node_modules recursively",
   "main": "index.js",
   "bin": {
