@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "Find and remove node_modules recursively",
   "main": "index.js",
+  "bin": {
+    "rm-node-modules": "./index.js"
+  },
   "repository": "https://github.com/ucokfm/rm-node-modules-cli",
   "author": "Ucok Freddy <ucokfm@gmail.com>",
   "license": "MIT",
