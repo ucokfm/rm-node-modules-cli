@@ -41,13 +41,12 @@ rl.on('line', function (line) {
   if (i === dirs.length) {
     process.exit();
   }
-  let dir = dirs[i];
 
   if (line === 'y') {
-    shell.rm('-rf', dir);
-  } else {
-    rl.setPrompt(`remove ${dir} (y/n) ? `);
-    rl.prompt();
-    i += 1;
+    shell.rm('-rf', dirs[i-1]);
   }
+
+  rl.setPrompt(`remove ${dirs[i]} (y/n) ? `);
+  rl.prompt();
+  i += 1;
 });
