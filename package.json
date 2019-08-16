@@ -10,6 +10,7 @@
   "author": "Ucok Freddy <ucokfm@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "ora": "^3.4.0",
     "shelljs": "^0.8.3"
   }
 }
