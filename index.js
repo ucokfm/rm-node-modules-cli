@@ -3,6 +3,10 @@ const readline = require('readline');
 const shell = require('shelljs');
 const ora = require('ora');
 
+let outputText = '';
+let dirs = [];
+let i = 0;
+
 const spinner = ora('searching node_modules...').start();
 
 const rl = readline.createInterface({
@@ -17,8 +21,6 @@ const rl = readline.createInterface({
 
 const child = shell.exec('find . -name node_modules -type d', { async: true, silent: true });
 
-let outputText = '';
-
 child.stdout.on('data', function (data) {
   outputText += data;
 });
@@ -26,19 +28,26 @@ child.stdout.on('data', function (data) {
 child.stdout.on('end', function () {
   spinner.stop();
   const node_modules = outputText.split('\n');
-  const dirs = node_modules.filter(file => {
+  dirs = node_modules.filter(file => {
     const count = file
       .split('/')
       .reduce((acc, cur) => cur === 'node_modules' ? acc + 1 : acc + 0, 0);
     return file.match(/node_modules$/) && count === 1;
   });
+  rl.emit('line');
+});
 
-  for (const dir of dirs) {
-    rl.question(`remove ${dir} (y/n) ? `, (answer) => {
-      if (answer === 'y') {
-        shell.rm('-rf', dir);
-      }
-      rl.close();
-    });
+rl.on('line', function (line) {
+  if (i === dirs.length) {
+    process.exit();
+  }
+  let dir = dirs[i];
+
+  if (line === 'y') {
+    shell.rm('-rf', dir);
+  } else {
+    rl.setPrompt(`remove ${dir} (y/n) ? `);
+    rl.prompt();
+    i += 1;
   }
 });
